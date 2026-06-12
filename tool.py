@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from dotenv import load_dotenv
 import requests
 from langchain.tools import tool
@@ -40,46 +39,3 @@ def scrape_url(url: str) -> str:
     except Exception as e:
         return f"Could not scrape URL: {str(e)}"
     
-=======
-from dotenv import load_dotenv
-import requests
-from langchain.tools import tool
-from tavily import TavilyClient
-from bs4 import BeautifulSoup
-import os
-from rich import print
-from langchain_mistralai import chat_models
-load_dotenv()
-
-tavily = TavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
-
-
-@tool
-def searching(query:str)->str:
-    """Search the web for recent and reliable information on a topic . Returns Titles , URLs and snippets."""
-    results = tavily.search(query=query ,max_results=3)
-    out = []
-
-    for r in results['results']:
-        out.append(
-            f"Title: {r['title']}\nURL: {r['url']}\nSnippet: {r['content'][:300]}\n"
-        )
-    
-    return "\n----\n".join(out)
-
-
-@tool
-def scrape_url(url: str) -> str:
-    """Scrape and return clean text content from a given URL for deeper reading."""
-    try:
-        resp = requests.get(url, timeout=8, headers={"User-Agent": "Mozilla/5.0"})
-        soup = BeautifulSoup(resp.text, "html.parser")
-        for tag in soup(["script", "style", "nav", "footer"]):
-            tag.decompose()
-        
-        return soup.get_text(separator=" ", strip=True)[:3000]
-    
-    except Exception as e:
-        return f"Could not scrape URL: {str(e)}"
-    
->>>>>>> 1ab8a9506f5e007e8bae57503944d7e1919ee2f9
