@@ -2,8 +2,8 @@
 langchain
 langchain-core
 langchain-community
-langchain-openai
-langchain_mistralai
+langchain_google_genai    
+
 
 # OpenAI
 openai
